@@ -11,8 +11,10 @@
     <div class="flex justify-evenly -md:flex-col gap-4 mb-7">
       <!-- cards -->
       <div
-        @click="activeCard"
-        class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer">
+        activeCard="arcade"
+        @click="SetActiveCard"
+        class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer hover:border-purplish"
+        :class="[activeCard === 'arcade' ? 'active-card' : '']">
         <img
           class="md:relative top-[-1.5rem]"
           src="../assets/images/icon-arcade.svg" />
@@ -34,8 +36,10 @@
       </div>
       <!-- cards -->
       <div
-        @click="activeCard"
-        class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer">
+        activeCard="advanced"
+        @click="SetActiveCard"
+        class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer hover:border-purplish"
+        :class="[activeCard === 'advanced' ? 'active-card' : '']">
         <img
           class="md:relative md:top-[-1.5rem]"
           src="../assets/images/icon-advanced.svg" />
@@ -56,8 +60,10 @@
       </div>
       <!-- cards -->
       <div
-        @click="activeCard"
-        class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer">
+        activCard="pro"
+        @click="SetActiveCard"
+        class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer hover:border-purplish"
+        :class="[activeCard === 'pro' ? 'active-card' : '']">
         <img
           class="md:relative md:top-[-1.5rem]"
           src="../assets/images/icon-pro.svg" />
@@ -115,6 +121,7 @@ export default {
     return {
       yearly: false,
       monthly: true,
+      activeCard: "",
     };
   },
   methods: {
@@ -123,15 +130,17 @@ export default {
       this.monthly = !this.monthly;
     },
 
-    activeCard(e) {
-      console.log(e.currentTarget);
+    SetActiveCard(e) {
+      const attrVal = e.currentTarget.attributes[0].value;
+
+      this.activeCard = attrVal;
     },
   },
 };
 </script>
 
 <style>
-.active {
-  border-color: var(--Marine-blue);
+.active-card {
+  border-color: var(--Purplish-blue);
 }
 </style>
