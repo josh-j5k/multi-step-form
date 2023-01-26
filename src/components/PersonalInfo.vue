@@ -1,3 +1,12 @@
+<script setup>
+const doSomething1 = () => {
+  console.log("Im robin");
+};
+defineExpose({
+  doSomething1,
+});
+</script>
+
 <template>
   <div
     class="-md:relative top-[-2rem] -md:w-[90vw] bg-white py-5 px-5 rounded-xl -md:mx-auto z-50">

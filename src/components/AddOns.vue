@@ -1,3 +1,7 @@
+<script setup>
+defineProps({ yearly: Boolean, monthly: Boolean });
+</script>
+
 <template lang="">
   <div
     class="-md:relative top-[-2rem] -md:w-[90vw] bg-white py-5 px-5 rounded-xl -md:mx-auto z-50">
@@ -26,7 +30,8 @@
         </div>
 
         <div>
-          <span class="text-purplish"> +$1/mo </span>
+          <span v-if="monthly" class="text-purplish"> +$1/mo </span>
+          <span v-if="yearly" class="text-purplish"> +$10/yr </span>
         </div>
       </div>
       <!-- add-ons item -->
@@ -45,7 +50,8 @@
         </div>
 
         <div>
-          <span class="text-purplish"> +$2/mo </span>
+          <span v-if="monthly" class="text-purplish"> +$2/mo </span>
+          <span v-if="yearly" class="text-purplish"> +$20/yr </span>
         </div>
       </div>
       <!-- add-ons item -->
@@ -64,25 +70,12 @@
         </div>
 
         <div>
-          <span class="text-purplish"> +$2/mo </span>
+          <span v-if="monthly" class="text-purplish"> +$2/mo </span>
+          <span v-if="yearly" class="text-purplish"> +$20/yr </span>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-export default {
-  name: "AddOns",
-  data() {
-    return {
-      checked: false,
-    };
-  },
-  methods: {
-    testing(e) {
-      console.log(e.currentTarget);
-    },
-  },
-};
-</script>
+
 <style lang=""></style>

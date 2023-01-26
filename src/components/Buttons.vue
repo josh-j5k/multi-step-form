@@ -22,14 +22,13 @@ defineProps({
   <div class="flex justify-between">
     <button
       v-show="showBtn > 0"
-      type="submit"
-      @click.prevent="previousStep"
+      @click="previousStep"
       class="capitalize cursor-pointer hover:text-marine text-[#a8a8a8]">
       go back
     </button>
     <button
       type="submit"
-      @click.prevent="nextStep"
+      @click="nextStep"
       class="bg-marine text-white rounded-md border-none py-2 px-4 capitalize cursor-pointer md:absolute bottom-2 right-0">
       {{ buttonText }}
     </button>
