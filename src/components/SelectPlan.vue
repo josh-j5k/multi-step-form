@@ -60,7 +60,7 @@
       </div>
       <!-- cards -->
       <div
-        activCard="pro"
+        activeCard="pro"
         @click="SetActiveCard"
         class="-md:flex gap-3 border border-solid rounded-lg flex-1 md:py-10 md:pl-4 py-3 px-3 items-center h-fit cursor-pointer hover:border-purplish"
         :class="[activeCard === 'pro' ? 'active-card' : '']">
@@ -131,7 +131,7 @@ export default {
     },
 
     SetActiveCard(e) {
-      const attrVal = e.currentTarget.attributes[0].value;
+      const attrVal = e.currentTarget.getAttribute("activeCard");
 
       this.activeCard = attrVal;
     },

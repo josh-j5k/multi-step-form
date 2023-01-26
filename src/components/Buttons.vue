@@ -6,11 +6,22 @@ function nextStep(e) {
 function previousStep(e) {
   emits("previousStep", e);
 }
+
+defineProps({
+  showBtn: {
+    type: Number,
+  },
+
+  buttonText: {
+    type: String,
+  },
+});
 </script>
 
 <template>
   <div class="flex justify-between">
     <button
+      v-show="showBtn > 0"
       type="submit"
       @click.prevent="previousStep"
       class="capitalize cursor-pointer hover:text-marine text-[#a8a8a8]">
@@ -19,8 +30,8 @@ function previousStep(e) {
     <button
       type="submit"
       @click.prevent="nextStep"
-      class="bg-marine text-white rounded-md border-none py-2 px-4 capitalize cursor-pointer">
-      next step
+      class="bg-marine text-white rounded-md border-none py-2 px-4 capitalize cursor-pointer md:absolute bottom-2 right-0">
+      {{ buttonText }}
     </button>
   </div>
 </template>
