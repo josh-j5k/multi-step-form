@@ -1,5 +1,19 @@
 <script setup>
+import { ref, onMounted, onUpdated } from "vue";
 defineProps({ yearly: Boolean, monthly: Boolean });
+const onlineServiceId = ref();
+const largeStorageId = ref();
+const customizableProfileId = ref();
+let onlineService;
+let largeStorage;
+let customizableProfile;
+
+onMounted(() => {
+  onlineService = onlineServiceId.value;
+  largeStorage = largeStorageId.value;
+  customizableProfile = customizableProfileId.value;
+  console.log(largeStorage.checked);
+});
 </script>
 
 <template lang="">
@@ -20,6 +34,7 @@ defineProps({ yearly: Boolean, monthly: Boolean });
         <div class="flex gap-6">
           <!-- checkbox -->
           <input
+            ref="onlineServiceId"
             id="onlineService"
             type="checkbox"
             class="w-5 h-5 self-center cursor-pointer rounded focus:text-purplish checked:text-purplish focus:ring-0" />
@@ -40,10 +55,11 @@ defineProps({ yearly: Boolean, monthly: Boolean });
         <div class="flex gap-6">
           <!-- checkbox -->
           <input
-            id="onlineService"
+            ref="largeStorageId"
+            id="largeStorage"
             type="checkbox"
             class="w-5 h-5 cursor-pointer self-center rounded focus:text-purplish checked:text-purplish focus:ring-0" />
-          <label for="onlineService " class="cursor-pointer flex flex-col">
+          <label for="largeStorage " class="cursor-pointer flex flex-col">
             <span class="text-marine font-bold">Larger storage</span>
             <span class="text-coolg">Extra 1TB of cloud save</span>
           </label>
@@ -60,10 +76,13 @@ defineProps({ yearly: Boolean, monthly: Boolean });
         <div class="flex gap-6">
           <!-- checkbox -->
           <input
-            id="onlineService"
+            ref="customizableProfileId"
+            id="customizableProfile"
             type="checkbox"
             class="cursor-pointer w-5 h-5 self-center rounded focus:text-purplish checked:text-purplish focus:ring-0" />
-          <label for="onlineService " class="cursor-pointer flex flex-col">
+          <label
+            for="customizableProfile "
+            class="cursor-pointer flex flex-col">
             <span class="text-marine font-bold">Customizable Profile </span>
             <span class="text-coolg">Custom theme on your profile</span>
           </label>

@@ -2,11 +2,13 @@
 import Sidebar from "./components/Sidebar.vue";
 import Forms from "./components/Forms.vue";
 import Buttons from "./components/Buttons.vue";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onUpdated } from "vue";
+
+let valid = ref(false);
 
 const grandchildComponentRef = ref();
 
-onMounted(() => {
+onUpdated(() => {
   grandchildComponentRef.value.doSomething();
 });
 
@@ -45,7 +47,10 @@ function previous() {
     <div
       class="md:max-w-4xl mx-auto md:mt-5 md:grid grid-cols-[40%_60%] md:bg-white md:py-4 md:px-4 rounded-2xl h-[85vh] shadow-[0_7px_10px_hsla(243, 100%, 62%, 0.5)] md:relative">
       <Sidebar :Index="currentComponent" />
-      <Forms ref="grandchildComponentRef" :componentIndex="currentComponent" />
+      <Forms
+        :valid="valid"
+        ref="grandchildComponentRef"
+        :componentIndex="currentComponent" />
     </div>
   </div>
 

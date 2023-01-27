@@ -4,7 +4,7 @@ import SelectPlan from "./SelectPlan.vue";
 import AddOns from "./AddOns.vue";
 import { ref, computed, onMounted } from "vue";
 
-defineProps({ componentIndex: Number });
+defineProps({ componentIndex: Number, valid: Boolean });
 let year = ref(false);
 let month = ref(true);
 const MonthYearToggle = () => {
@@ -14,12 +14,12 @@ const MonthYearToggle = () => {
 
 const childComponentRef = ref();
 
-onMounted(() => {
-  console.log(childComponentRef.value);
-});
+// onMounted(() => {
+//   childComponentRef.value.doSomething1();
+// });
 
 const doSomething = () => {
-  console.log("Im batman");
+  childComponentRef.value.validation();
 };
 
 defineExpose({
@@ -29,7 +29,10 @@ defineExpose({
 
 <template>
   <div class="md:w-[450px] pt-10">
-    <PersonalInfo ref="childComponentRef" v-show="componentIndex == 0" />
+    <PersonalInfo
+      :valid="valid"
+      ref="childComponentRef"
+      v-show="componentIndex == 0" />
     <SelectPlan
       :yearly="year"
       :monthly="month"
