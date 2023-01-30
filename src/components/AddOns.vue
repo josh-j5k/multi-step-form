@@ -1,18 +1,31 @@
 <script setup>
-import { ref, onMounted, onUpdated } from "vue";
+import { ref, onMounted, onUpdated, computed } from "vue";
 defineProps({ yearly: Boolean, monthly: Boolean });
 const onlineServiceId = ref();
 const largeStorageId = ref();
 const customizableProfileId = ref();
-let onlineService;
-let largeStorage;
-let customizableProfile;
+let onlineServiceBorderToggle = ref(false);
+let localStorageBorderToggle = ref(false);
+let customizableProfileBorderToggle = ref(false);
+
+function SelectOnlineService() {
+  onlineServiceId.value.checked = !onlineServiceId.value.checked;
+  onlineServiceBorderToggle.value = !onlineServiceBorderToggle.value;
+}
+function SelectLargeStorage() {
+  largeStorageId.value.checked = !largeStorageId.value.checked;
+  localStorageBorderToggle.value = !localStorageBorderToggle.value;
+}
+function SelectCustomizable() {
+  customizableProfileId.value.checked = !customizableProfileId.value.checked;
+  customizableProfileBorderToggle.value =
+    !customizableProfileBorderToggle.value;
+}
 
 onMounted(() => {
-  onlineService = onlineServiceId.value;
-  largeStorage = largeStorageId.value;
-  customizableProfile = customizableProfileId.value;
-  console.log(largeStorage.checked);
+  SelectOnlineService;
+  SelectLargeStorage;
+  SelectCustomizable;
 });
 </script>
 
@@ -29,7 +42,8 @@ onMounted(() => {
     <div class="flex justify-evenly -md:text-sm flex-col gap-4 mb-7">
       <!-- add-ons item -->
       <div
-        @click="testing"
+        @click="SelectOnlineService"
+        :class="[onlineServiceBorderToggle ? 'active-card' : '']"
         class="flex gap-3 border border-solid rounded-lg flex-1 justify-between px-5 items-center py-5 h-fit cursor-pointer hover:border-purplish -md:py-2">
         <div class="flex gap-6">
           <!-- checkbox -->
@@ -51,6 +65,8 @@ onMounted(() => {
       </div>
       <!-- add-ons item -->
       <div
+        @click="SelectLargeStorage"
+        :class="[localStorageBorderToggle ? 'active-card' : '']"
         class="flex gap-3 border border-solid rounded-lg flex-1 justify-between px-5 items-center py-5 h-fit cursor-pointer hover:border-purplish -md:py-2">
         <div class="flex gap-6">
           <!-- checkbox -->
@@ -72,6 +88,8 @@ onMounted(() => {
       </div>
       <!-- add-ons item -->
       <div
+        @click="SelectCustomizable"
+        :class="[customizableProfileBorderToggle ? 'active-card' : '']"
         class="flex gap-3 border border-solid rounded-lg flex-1 justify-between px-5 items-center py-5 h-fit cursor-pointer hover:border-purplish -md:py-2">
         <div class="flex gap-6">
           <!-- checkbox -->

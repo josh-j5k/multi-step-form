@@ -2,32 +2,28 @@
 import Sidebar from "./components/Sidebar.vue";
 import Forms from "./components/Forms.vue";
 import Buttons from "./components/Buttons.vue";
-import { ref, computed, onUpdated } from "vue";
-
-let valid = ref(false);
-
-const grandchildComponentRef = ref();
-
-onUpdated(() => {
-  grandchildComponentRef.value.doSomething();
-});
-
-let buttonText = ref("next step");
-
-const nextBtnText = computed(() => {
-  if (currentComponent.value < multiSteps.length - 1) {
-    buttonText.value = "next step";
-  } else {
-    buttonText.value = "confirm";
-  }
-  return buttonText.value;
-});
+import { ref, computed, onUpdated, onMounted } from "vue";
 
 let currentComponent = ref(0);
 const multiSteps = ["PersonalInfo", "SelectPlan", "AddOns"];
+let buttonText = ref("next step");
+let valid = ref(true);
+
+const grandchildComponentRef = ref();
+
+// onUpdated(() => {
+//   grandchildComponentRef.value.doSomething();
+// });
+
+onMounted(() => {
+  next;
+});
 
 function next() {
-  currentComponent.value++;
+  if (valid.value == true) {
+    currentComponent.value++;
+  }
+
   if (currentComponent.value > multiSteps.length - 1) {
     currentComponent.value = 0;
   }
@@ -39,7 +35,24 @@ function previous() {
   }
 }
 
-// const currComp = computed(() => currentComponent);
+// Computed properties
+const nextBtnText = computed(() => {
+  if (currentComponent.value < multiSteps.length - 1) {
+    buttonText.value = "next step";
+  } else {
+    buttonText.value = "confirm";
+  }
+  return buttonText.value;
+});
+
+// const componentIndices = computed(() => {
+//   if (currentComponent.value < multiSteps.length) {
+//     return currentComponent.value++;
+//   } else if (currentComponent.value == multiSteps.length - 1) {
+//     return currentComponent.value;
+//   }
+//   return currentComponent.value;
+// });
 </script>
 
 <template>

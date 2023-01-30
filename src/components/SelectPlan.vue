@@ -6,10 +6,7 @@ const emits = defineEmits("monthYearToggle");
 let activeCard = ref(null);
 
 const monthYearToggle = () => {
-  // yearly.value = !yearly.value;
-  // monthly.value = !monthly.value;
   emits("monthYearToggle");
-  // console.log(ActiveMonth);
 };
 
 const SetActiveCard = (e) => {
@@ -17,30 +14,6 @@ const SetActiveCard = (e) => {
 
   activeCard.value = attrVal;
 };
-
-/*export default {
-  name: "SelectPlan",
-
-  data() {
-    return {
-      yearly: false,
-      monthly: true,
-      activeCard: "",
-    };
-  },
-  methods: {
-    monthYearToggle() {
-      this.yearly = !this.yearly;
-      this.monthly = !this.monthly;
-    },
-
-    SetActiveCard(e) {
-      const attrVal = e.currentTarget.getAttribute("activeCard");
-
-      this.activeCard = attrVal;
-    },
-  },
-};*/
 </script>
 
 <template>
