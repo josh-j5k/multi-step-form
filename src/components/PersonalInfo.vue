@@ -1,29 +1,42 @@
 <script setup>
 import { ref, onUpdated, onMounted } from "vue";
-
-defineProps({ valid: Boolean });
+const props = defineProps({ valid: Boolean });
 // onUpdated(() => {
 //   validation();
 // });
+let invalidEmail = ref(false);
+let invalidEmailError = "Please enter a valid email";
 let emptyFieldError = "This field is required";
-let inValidEmail = "Please enter a valid email";
+
 let Name = null;
 let Email = null;
 
 let PhoneNumber = null;
 
-/*let isEmailValid = (email) => {
+let isEmailValid = (email) => {
   const EmailPattern = RegExp(
     /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   );
-  console.log(EmailPattern.test(email));
-};*/
-const validation = () => {
+  return EmailPattern.test(email);
+};
+// onUpdated(() => {
+//   if (!isEmailValid(Email)) {
+//     invalidEmail.value = true;
+//   } else {
+//     invalidEmail.value = false;
+//   }
+// });
+
+const validation = (valid) => {
   if (Name == null) {
     Name = "";
   }
   if (Email == null) {
     Email = "";
+  } else if (!isEmailValid(Email) && Email !== "") {
+    invalidEmail.value = true;
+  } else {
+    invalidEmail.value = false;
   }
 
   if (PhoneNumber == null) {
@@ -66,28 +79,26 @@ defineExpose({
         </div>
         <div class="flex flex-col mb-5">
           <div class="pb-1 flex justify-between">
-            <label class="text-marine capitalize" for="email">
+            <label class="text-marine capitalize" for="Email">
               Email Address</label
             >
-            <div v-show="Email == ''" class="text-sberry">
+            <div v-show="Email === ''" class="text-sberry">
               {{ emptyFieldError }}
             </div>
-            <div v-show="Email == 'invalid'" class="text-sberry">
-              {{ inValidEmail }}
+            <div v-show="invalidEmail" class="text-sberry">
+              {{ invalidEmailError }}
             </div>
           </div>
 
           <input
-            ref="emailInputId"
-            v-modle="Email"
+            v-model="Email"
             class="outline-none border border-solid border-[#ccc] py-3 px-3 rounded-lg text-marine focus:border-purplish"
-            :class="[Email == '' ? 'error' : '']"
+            :class="[Email == '' ? 'error' : invalidEmail ? 'error' : '']"
             type="email"
             name="Email"
-            id="email"
+            id="Email"
             placeholder="e.g. stephenking@lorem.com" />
         </div>
-        <div>{{ Email }}</div>
         <div class="flex flex-col mb-5">
           <div class="pb-1 flex justify-between">
             <label class="text-marine capitalize" for="phoneNumber">

@@ -1,9 +1,12 @@
 <script setup>
 import { ref, onMounted, onUpdated, computed } from "vue";
 defineProps({ yearly: Boolean, monthly: Boolean });
+
+// Refs for Element Id
 const onlineServiceId = ref();
 const largeStorageId = ref();
 const customizableProfileId = ref();
+//
 let onlineServiceBorderToggle = ref(false);
 let localStorageBorderToggle = ref(false);
 let customizableProfileBorderToggle = ref(false);
