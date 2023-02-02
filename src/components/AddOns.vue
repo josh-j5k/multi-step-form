@@ -10,7 +10,7 @@ const customizableProfileId = ref();
 let onlineServiceBorderToggle = ref(false);
 let localStorageBorderToggle = ref(false);
 let customizableProfileBorderToggle = ref(false);
-
+//
 function SelectOnlineService() {
   onlineServiceId.value.checked = !onlineServiceId.value.checked;
   onlineServiceBorderToggle.value = !onlineServiceBorderToggle.value;
@@ -24,7 +24,7 @@ function SelectCustomizable() {
   customizableProfileBorderToggle.value =
     !customizableProfileBorderToggle.value;
 }
-
+//
 onMounted(() => {
   SelectOnlineService;
   SelectLargeStorage;

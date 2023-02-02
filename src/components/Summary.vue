@@ -1,5 +1,14 @@
 <script setup>
-const props = defineProps({ yearly: Boolean, monthly: Boolean });
+import { ref, onUpdated } from "vue";
+
+const props = defineProps({
+  yearly: Boolean,
+  monthly: Boolean,
+  elementData: Object,
+});
+
+let plan = ref("");
+
 const emits = defineEmits(["changeBtn"]);
 const changeBtn = () => {
   emits("changeBtn");
@@ -18,7 +27,9 @@ const changeBtn = () => {
     <div class="flex justify-evenly flex-col py-5 px-5 rounded-lg bg-gray-100">
       <div class="flex justify-between">
         <div>
-          <span class="font-bold text-marine"> Arcade </span>
+          <span class="font-bold text-marine capitalize">
+            {{ props.elementData.plan }}</span
+          >
           <span v-if="monthly" class="font-bold text-marine"> (Monthly) </span>
           <span v-if="yearly" class="font-bold text-marine"> (Yearly) </span>
           <div
@@ -29,7 +40,7 @@ const changeBtn = () => {
         </div>
         <div class="text-marine">
           <span class="font-bold"> $ </span>
-          <span class="font-bold -ml-1"> 9 </span>
+          <span class="font-bold -ml-1"> {{ props.elementData.price }} </span>
           <span class="font-bold -ml-1"> / </span>
           <span class="font-bold -ml-1"> mo </span>
         </div>

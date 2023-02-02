@@ -1,31 +1,22 @@
 <script setup>
 import { onMounted, onUpdated, ref } from "vue";
-const props = defineProps({ yearly: Boolean, monthly: Boolean });
-const emits = defineEmits("monthYearToggle");
+const props = defineProps({
+  yearly: Boolean,
+  monthly: Boolean,
+  SelectData: Object,
+});
+const emits = defineEmits("monthYearToggle", "SetActiveCard");
 
 let activeCard = ref(null);
+const priceArcade = ref();
+const priceAdvance = ref();
+const pricePro = ref();
 
-let SelectData = {
-  plan: null,
-  price: 0,
-  monthly: true,
-  yearly: false,
-};
-
-let priceArcade = ref();
-let priceAdvance = ref();
-let pricePro = ref();
 let price = ref(0);
 // function setDataValues(plan, price, monthly, yearly) {
 
 // }
-onUpdated(() => {
-  SelectData.plan = activeCard.value;
-  SelectData.monthly = props.monthly;
-  SelectData.yearly = props.yearly;
-  SelectData.price = price.value;
-  console.log(SelectData);
-});
+onUpdated(() => {});
 
 const monthYearToggle = () => {
   emits("monthYearToggle");
@@ -33,15 +24,11 @@ const monthYearToggle = () => {
 
 const SetActiveCard = (e) => {
   const attrVal = e.currentTarget.getAttribute("activeCard");
+  // console.log(priceArcade.value.innerHTML);
 
   activeCard.value = attrVal;
-  if (attrVal == "arcade") {
-    price.value = parseInt(priceArcade.value.innerText);
-  } else if (attrVal === "advanced") {
-    price.value = parseInt(priceAdvance.value.innerText);
-  } else if (attrVal === "pro") {
-    price.value = parseInt(pricePro.value.innerText);
-  }
+
+  emits("SetActiveCard", e);
 };
 </script>
 
@@ -72,7 +59,7 @@ const SetActiveCard = (e) => {
             <!-- monthly price -->
             <div v-if="monthly" class="text-sm text-[#a3a3a3]">
               <span> $ </span>
-              <span ref="priceArcade " class="-ml-1">9</span>
+              <span class="-ml-1" ref="priceArcade">9</span>
               <span> /mo </span>
             </div>
             <!-- yearly price -->
@@ -82,7 +69,7 @@ const SetActiveCard = (e) => {
               class="text-[#a3a3a3] text-sm flex flex-col">
               <div>
                 <span> $ </span>
-                <span ref="priceArcade" class="-ml-1">90</span>
+                <span class="-ml-1">90</span>
                 <span>/yr</span>
               </div>
               <span class="text-marine font-bold"> 2 months free </span>
@@ -112,7 +99,7 @@ const SetActiveCard = (e) => {
             <div v-if="yearly" class="text-sm flex flex-col">
               <div class="text-[#a3a3a3]">
                 <span> $ </span>
-                <span class="-ml-1" ref="priceAdvance">120</span>
+                <span class="-ml-1">120</span>
                 <span> /mo</span>
               </div>
               <span class="text-marine font-bold"> 2 months free </span>
@@ -142,7 +129,7 @@ const SetActiveCard = (e) => {
             <div v-if="yearly" class="text-sm flex flex-col text-[#a3a3a3]">
               <div>
                 <span> $ </span>
-                <span class="-ml-1" ref="pricePro">150</span>
+                <span class="-ml-1">150</span>
                 <span>/yr</span>
               </div>
 

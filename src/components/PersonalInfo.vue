@@ -1,9 +1,6 @@
 <script setup>
 import { ref, onUpdated, onMounted } from "vue";
-const props = defineProps({ valid: Boolean });
-// onUpdated(() => {
-//   validation();
-// });
+
 let invalidEmail = ref(false);
 let invalidEmailError = "Please enter a valid email";
 let emptyFieldError = "This field is required";
@@ -19,13 +16,6 @@ let isEmailValid = (email) => {
   );
   return EmailPattern.test(email);
 };
-// onUpdated(() => {
-//   if (!isEmailValid(Email)) {
-//     invalidEmail.value = true;
-//   } else {
-//     invalidEmail.value = false;
-//   }
-// });
 
 const validation = (valid) => {
   if (Name == null) {
