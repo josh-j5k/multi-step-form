@@ -1,14 +1,23 @@
 <script setup>
-import { ref, onUpdated } from "vue";
+import { ref, onUpdated, computed } from "vue";
 
 const props = defineProps({
   yearly: Boolean,
   monthly: Boolean,
-  elementData: Object,
+  plan: String,
+  price: Number,
 });
 
-let plan = ref("");
+const MonthlyYearlyToggled = computed(() => {
+  if (props.yearly) {
+    return "Yearly";
+  }
+  if (props.monthly) {
+    return "monthly";
+  }
+});
 
+onUpdated(() => {});
 const emits = defineEmits(["changeBtn"]);
 const changeBtn = () => {
   emits("changeBtn");
@@ -28,10 +37,11 @@ const changeBtn = () => {
       <div class="flex justify-between">
         <div>
           <span class="font-bold text-marine capitalize">
-            {{ props.elementData.plan }}</span
+            {{ props.plan }}</span
           >
-          <span v-if="monthly" class="font-bold text-marine"> (Monthly) </span>
-          <span v-if="yearly" class="font-bold text-marine"> (Yearly) </span>
+          <span class="font-bold text-marine capitalize">
+            ({{ MonthlyYearlyToggled }})
+          </span>
           <div
             @click="changeBtn"
             class="capitalize underline text-purplish cursor-pointer">
@@ -40,7 +50,7 @@ const changeBtn = () => {
         </div>
         <div class="text-marine">
           <span class="font-bold"> $ </span>
-          <span class="font-bold -ml-1"> {{ props.elementData.price }} </span>
+          <span class="font-bold -ml-1"> {{ props.price }} </span>
           <span class="font-bold -ml-1"> / </span>
           <span class="font-bold -ml-1"> mo </span>
         </div>

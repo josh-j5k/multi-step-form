@@ -1,11 +1,11 @@
 <script setup>
-import { onMounted, onUpdated, ref } from "vue";
+import { onMounted, onUpdated, ref, computed, watchEffect } from "vue";
 const props = defineProps({
   yearly: Boolean,
   monthly: Boolean,
   SelectData: Object,
 });
-const emits = defineEmits("monthYearToggle", "SetActiveCard");
+const emits = defineEmits("monthYearToggle", "SetActiveCard", "onChangePrice");
 
 let activeCard = ref(null);
 const priceArcade = ref();
@@ -16,20 +16,42 @@ let price = ref(0);
 // function setDataValues(plan, price, monthly, yearly) {
 
 // }
-onUpdated(() => {});
-
+onMounted(() => {
+  test.value;
+});
+onUpdated(() => {
+  if (activeCard.value === "arcade") {
+    price.value = parseInt(priceArcade.value.innerHTML);
+  }
+  if (activeCard.value === "advanced") {
+    price.value = parseInt(priceAdvance.value.innerHTML);
+  }
+  if (activeCard.value === "pro") {
+    price.value = parseInt(pricePro.value.innerHTML);
+  }
+  test.value;
+});
 const monthYearToggle = () => {
   emits("monthYearToggle");
+
+  // console.log(priceArcade.value.innerHTML);
 };
+
+watchEffect(() => {});
 
 const SetActiveCard = (e) => {
   const attrVal = e.currentTarget.getAttribute("activeCard");
-  // console.log(priceArcade.value.innerHTML);
 
   activeCard.value = attrVal;
-
   emits("SetActiveCard", e);
 };
+
+// const values = computed(() => {});
+const test = computed(() => {
+  let updatedPrice = price.value;
+  emits("onChangePrice", updatedPrice);
+  return updatedPrice;
+});
 </script>
 
 <template>
@@ -63,13 +85,10 @@ const SetActiveCard = (e) => {
               <span> /mo </span>
             </div>
             <!-- yearly price -->
-            <div
-              price="90"
-              v-if="yearly"
-              class="text-[#a3a3a3] text-sm flex flex-col">
+            <div v-if="yearly" class="text-[#a3a3a3] text-sm flex flex-col">
               <div>
                 <span> $ </span>
-                <span class="-ml-1">90</span>
+                <span class="-ml-1" ref="priceArcade">90</span>
                 <span>/yr</span>
               </div>
               <span class="text-marine font-bold"> 2 months free </span>
@@ -99,8 +118,8 @@ const SetActiveCard = (e) => {
             <div v-if="yearly" class="text-sm flex flex-col">
               <div class="text-[#a3a3a3]">
                 <span> $ </span>
-                <span class="-ml-1">120</span>
-                <span> /mo</span>
+                <span class="-ml-1" ref="priceAdvance">120</span>
+                <span> /yr</span>
               </div>
               <span class="text-marine font-bold"> 2 months free </span>
             </div>
@@ -129,7 +148,7 @@ const SetActiveCard = (e) => {
             <div v-if="yearly" class="text-sm flex flex-col text-[#a3a3a3]">
               <div>
                 <span> $ </span>
-                <span class="-ml-1">150</span>
+                <span class="-ml-1" ref="pricePro">150</span>
                 <span>/yr</span>
               </div>
 

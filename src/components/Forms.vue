@@ -9,12 +9,10 @@ import { ref, computed, onMounted, onUpdated } from "vue";
 const props = defineProps({ Index: Number, buttonText: String });
 const emits = defineEmits(["next", "previous"]);
 let attrVal = null;
-let SelectData = {
-  plan: "",
-  price: 0,
-};
+let plan = ref(null);
 let year = ref(false);
 let month = ref(true);
+let Price = ref(0);
 
 // let currentComponent = ref(props.Index);
 const childComponentRef = ref();
@@ -22,36 +20,20 @@ const childComponentRef = ref();
 const MonthYearToggle = () => {
   year.value = !year.value;
   month.value = !month.value;
-
-  console.log(SelectData);
 };
 
 const SetSelectData = (e) => {
   attrVal = e.currentTarget.getAttribute("activeCard");
-  SelectData.plan = attrVal;
-  if (attrVal === "arcade") {
-    SelectData.price = 9;
-  }
-
-  if (attrVal === "advanced") {
-    SelectData.price = 12;
-  }
-  if (attrVal === "pro") {
-    SelectData.price = 15;
-  }
-
-  console.log(SelectData);
+  plan = attrVal;
 };
 
-onMounted(() => {});
+onUpdated(() => {});
+onMounted(() => testme);
 
-// const comSelectData = computed(() => {
-//   year.value
-//     ? (SelectData.price *= 10)
-//     : month.value
-//     ? (SelectData.price /= 10)
-//     : "";
-// });
+function testme(value) {
+  Price.value = value;
+}
+
 function next() {
   emits("next");
 }
@@ -69,10 +51,12 @@ function previous() {
       @monthYearToggle="MonthYearToggle"
       v-show="props.Index == 1"
       :SelectData="SelectData"
-      @setActiveCard="SetSelectData($event)" />
+      @setActiveCard="SetSelectData($event)"
+      @onChangePrice="testme" />
     <AddOns :yearly="year" :monthly="month" v-show="props.Index == 2" />
     <Summary
-      :elementData="SelectData"
+      :plan="plan"
+      :price="Price"
       @changeBtn="MonthYearToggle"
       :yearly="year"
       :monthly="month"
