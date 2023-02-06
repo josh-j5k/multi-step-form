@@ -13,7 +13,7 @@ let plan = ref(null);
 let year = ref(false);
 let month = ref(true);
 let Price = ref(0);
-
+let addons = ref("");
 // let currentComponent = ref(props.Index);
 const childComponentRef = ref();
 
@@ -27,11 +27,15 @@ const SetSelectData = (e) => {
   plan = attrVal;
 };
 
-onUpdated(() => {});
-onMounted(() => testme);
+// onUpdated(() => {});
+// onMounted(() => testme);
 
 function testme(value) {
   Price.value = value;
+}
+
+function updatedObj(obj) {
+  addons.value = obj;
 }
 
 function next() {
@@ -50,13 +54,17 @@ function previous() {
       :monthly="month"
       @monthYearToggle="MonthYearToggle"
       v-show="props.Index == 1"
-      :SelectData="SelectData"
       @setActiveCard="SetSelectData($event)"
       @onChangePrice="testme" />
-    <AddOns :yearly="year" :monthly="month" v-show="props.Index == 2" />
+    <AddOns
+      :yearly="year"
+      :monthly="month"
+      v-show="props.Index == 2"
+      @onChangeObj="updatedObj" />
     <Summary
       :plan="plan"
       :price="Price"
+      :addons="addons"
       @changeBtn="MonthYearToggle"
       :yearly="year"
       :monthly="month"

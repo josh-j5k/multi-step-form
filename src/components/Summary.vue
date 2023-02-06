@@ -1,13 +1,42 @@
 <script setup>
-import { ref, onUpdated, computed } from "vue";
+import { processSlotOutlet } from "@vue/compiler-core";
+import { ref, onUpdated, computed, onMounted } from "vue";
 
 const props = defineProps({
   yearly: Boolean,
   monthly: Boolean,
   plan: String,
   price: Number,
+  addons: Object,
 });
 
+onUpdated(() => {
+  for (const key in props.addons) {
+    if (Object.hasOwnProperty.call(props.addons, key)) {
+      const element = props.addons[key];
+      let sum = 0;
+      console.log(element.price);
+    }
+  }
+});
+
+const monthYearToggled = computed(() => {
+  if (props.yearly) {
+    return "year";
+  }
+  if (props.monthly) {
+    return "month";
+  }
+});
+
+const moYrToggled = computed(() => {
+  if (props.yearly) {
+    return "yr";
+  }
+  if (props.monthly) {
+    return "mo";
+  }
+});
 const MonthlyYearlyToggled = computed(() => {
   if (props.yearly) {
     return "Yearly";
@@ -16,8 +45,14 @@ const MonthlyYearlyToggled = computed(() => {
     return "monthly";
   }
 });
-
-onUpdated(() => {});
+const total = computed(() => {
+  for (const key in props.addons) {
+    if (Object.hasOwnProperty.call(props.addons, key)) {
+      const element = props.addons[key];
+      return (props.price += element.price);
+    }
+  }
+});
 const emits = defineEmits(["changeBtn"]);
 const changeBtn = () => {
   emits("changeBtn");
@@ -52,32 +87,36 @@ const changeBtn = () => {
           <span class="font-bold"> $ </span>
           <span class="font-bold -ml-1"> {{ props.price }} </span>
           <span class="font-bold -ml-1"> / </span>
-          <span class="font-bold -ml-1"> mo </span>
+          <span class="font-bold -ml-1"> {{ moYrToggled }} </span>
         </div>
       </div>
       <hr class="my-5" />
-      <div class="flex justify-between">
-        <div>
-          <span class="text-coolg"> Online service </span>
+      <div class="flex justify-between" v-for="title in props.addons">
+        <div class="text-coolg">
+          {{ title.title }}
+          <!-- <span > Online service </span> -->
         </div>
         <div class="text-coolg">
           <span class=""> $ </span>
-          <span class="-ml-1"> 1 </span>
+          <span class="-ml-1"> {{ title.price }} </span>
           <span class="-ml-1"> / </span>
-          <span class="-ml-1"> mo </span>
+          <span class="-ml-1"> {{ moYrToggled }} </span>
         </div>
       </div>
     </div>
     <div class="flex justify-between py-5 px-5">
       <div class="text-coolg">
         <span> Total </span>
-        <span> (per month) </span>
+        <span> (per {{ monthYearToggled }}) </span>
       </div>
       <div>
         <span class="font-bold text-lg text-purplish"> +$ </span>
+        <!-- <span class="-ml-1 font-bold text-lg text-purplish"> {{ total }} </span> -->
         <span class="-ml-1 font-bold text-lg text-purplish"> 10 </span>
         <span class="-ml-1 font-bold text-lg text-purplish"> / </span>
-        <span class="-ml-1 font-bold text-lg text-purplish"> mo </span>
+        <span class="-ml-1 font-bold text-lg text-purplish">
+          {{ moYrToggled }}
+        </span>
       </div>
     </div>
   </div>

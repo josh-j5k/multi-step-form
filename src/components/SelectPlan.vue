@@ -1,18 +1,17 @@
 <script setup>
-import { onMounted, onUpdated, ref, computed, watchEffect } from "vue";
+import { onMounted, onUpdated, ref, computed } from "vue";
 const props = defineProps({
   yearly: Boolean,
   monthly: Boolean,
-  SelectData: Object,
 });
 const emits = defineEmits("monthYearToggle", "SetActiveCard", "onChangePrice");
 
-let activeCard = ref(null);
+const activeCard = ref(null);
 const priceArcade = ref();
 const priceAdvance = ref();
 const pricePro = ref();
 
-let price = ref(0);
+const price = ref(0);
 // function setDataValues(plan, price, monthly, yearly) {
 
 // }
@@ -36,8 +35,6 @@ const monthYearToggle = () => {
 
   // console.log(priceArcade.value.innerHTML);
 };
-
-watchEffect(() => {});
 
 const SetActiveCard = (e) => {
   const attrVal = e.currentTarget.getAttribute("activeCard");

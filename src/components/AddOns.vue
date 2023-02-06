@@ -2,33 +2,94 @@
 import { ref, onMounted, onUpdated, computed } from "vue";
 defineProps({ yearly: Boolean, monthly: Boolean });
 
+const emits = defineEmits(["onChangeObj"]);
+
+let addOnObj = ref({});
+let obj1 = {};
+let obj2 = {};
+let obj3 = {};
+
+const onlineServicePrice = ref(0);
+const LargeStoragePrice = ref(0);
+const CustomizablePrice = ref(0);
+
 // Refs for Element Id
 const onlineServiceId = ref();
 const largeStorageId = ref();
 const customizableProfileId = ref();
-//
-let onlineServiceBorderToggle = ref(false);
-let localStorageBorderToggle = ref(false);
-let customizableProfileBorderToggle = ref(false);
+//refs for Item Title and Price
+const objOneTitle = ref();
+const objOnePrice = ref();
+const objTwoTitle = ref();
+const objTwoPrice = ref();
+const objThreeTitle = ref();
+const objThreePrice = ref();
+
+const onlineServiceBorderToggle = ref(false);
+const localStorageBorderToggle = ref(false);
+const customizableProfileBorderToggle = ref(false);
 //
 function SelectOnlineService() {
   onlineServiceId.value.checked = !onlineServiceId.value.checked;
   onlineServiceBorderToggle.value = !onlineServiceBorderToggle.value;
+
+  if (!onlineServiceId.value.checked) {
+    delete addOnObj.value.obj1;
+  }
 }
 function SelectLargeStorage() {
   largeStorageId.value.checked = !largeStorageId.value.checked;
   localStorageBorderToggle.value = !localStorageBorderToggle.value;
+
+  if (!largeStorageId.value.checked) {
+    delete addOnObj.value.obj2;
+  }
 }
 function SelectCustomizable() {
   customizableProfileId.value.checked = !customizableProfileId.value.checked;
   customizableProfileBorderToggle.value =
     !customizableProfileBorderToggle.value;
+
+  if (!customizableProfileId.value.checked) {
+    delete addOnObj.value.obj3;
+  }
 }
+
 //
 onMounted(() => {
   SelectOnlineService;
   SelectLargeStorage;
   SelectCustomizable;
+});
+onUpdated(() => {
+  if (onlineServiceId.value.checked) {
+    onlineServicePrice.value = parseInt(objOnePrice.value.innerHTML);
+    obj1.title = objOneTitle.value.innerHTML;
+    obj1.price = onlineServicePrice.value;
+    addOnObj.value.obj1 = obj1;
+  }
+  if (largeStorageId.value.checked) {
+    LargeStoragePrice.value = parseInt(objTwoPrice.value.innerHTML);
+    obj2.title = objTwoTitle.value.innerHTML;
+    obj2.price = LargeStoragePrice.value;
+
+    addOnObj.value.obj2 = obj2;
+  }
+
+  if (customizableProfileId.value.checked) {
+    CustomizablePrice.value = parseInt(objThreePrice.value.innerHTML);
+    obj3.title = objThreeTitle.value.innerHTML;
+    obj3.price = CustomizablePrice.value;
+
+    addOnObj.value.obj3 = obj3;
+  }
+  AddOns.value;
+});
+
+const AddOns = computed(() => {
+  let updatedObj = addOnObj.value;
+  emits("onChangeObj", updatedObj);
+  return updatedObj;
 });
 </script>
 
@@ -56,14 +117,21 @@ onMounted(() => {
             type="checkbox"
             class="w-5 h-5 self-center cursor-pointer rounded focus:text-purplish checked:text-purplish focus:ring-0" />
           <label for="onlineService " class="cursor-pointer flex flex-col">
-            <span class="text-marine font-bold">Online service</span>
+            <span class="text-marine font-bold" ref="objOneTitle"
+              >Online service</span
+            >
             <span class="text-coolg">Access to multiplayer games</span>
           </label>
         </div>
 
-        <div>
-          <span v-if="monthly" class="text-purplish"> +$1/mo </span>
-          <span v-if="yearly" class="text-purplish"> +$10/yr </span>
+        <div class="text-purplish">
+          <div v-if="monthly">
+            <span>+$</span><span ref="objOnePrice">1</span>
+            <span>/mo</span>
+          </div>
+          <div v-if="yearly">
+            <span>+$</span><span ref="objOnePrice">10</span><span>/yr</span>
+          </div>
         </div>
       </div>
       <!-- add-ons item -->
@@ -79,14 +147,20 @@ onMounted(() => {
             type="checkbox"
             class="w-5 h-5 cursor-pointer self-center rounded focus:text-purplish checked:text-purplish focus:ring-0" />
           <label for="largeStorage " class="cursor-pointer flex flex-col">
-            <span class="text-marine font-bold">Larger storage</span>
+            <span class="text-marine font-bold" ref="objTwoTitle"
+              >Larger storage</span
+            >
             <span class="text-coolg">Extra 1TB of cloud save</span>
           </label>
         </div>
 
-        <div>
-          <span v-if="monthly" class="text-purplish"> +$2/mo </span>
-          <span v-if="yearly" class="text-purplish"> +$20/yr </span>
+        <div class="text-purplish">
+          <div v-if="monthly">
+            <span>+$</span><span ref="objTwoPrice">2</span><span>/mo</span>
+          </div>
+          <div v-if="yearly">
+            <span>+$</span><span ref="objTwoPrice">20</span><span>/yr</span>
+          </div>
         </div>
       </div>
       <!-- add-ons item -->
@@ -104,14 +178,20 @@ onMounted(() => {
           <label
             for="customizableProfile "
             class="cursor-pointer flex flex-col">
-            <span class="text-marine font-bold">Customizable Profile </span>
+            <span class="text-marine font-bold" ref="objThreeTitle"
+              >Customizable Profile
+            </span>
             <span class="text-coolg">Custom theme on your profile</span>
           </label>
         </div>
 
-        <div>
-          <span v-if="monthly" class="text-purplish"> +$2/mo </span>
-          <span v-if="yearly" class="text-purplish"> +$20/yr </span>
+        <div class="text-purplish">
+          <div v-if="monthly">
+            <span>+$</span><span ref="objThreePrice">2</span><span>/mo</span>
+          </div>
+          <div v-if="yearly">
+            <span>+$</span><span ref="objThreePrice">20</span><span>/yr</span>
+          </div>
         </div>
       </div>
     </div>
