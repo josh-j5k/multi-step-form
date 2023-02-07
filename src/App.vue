@@ -5,13 +5,21 @@ import Forms from "./components/Forms.vue";
 import { ref, computed, onUpdated, onMounted } from "vue";
 
 const multiSteps = ["PersonalInfo", "SelectPlan", "AddOns", "Summary"];
-let valid = ref(true);
+let formValid = ref(false);
+let shake = ref(false);
 let buttonText = ref("next step");
 
 let currentIndex = ref(0);
+const grandchildRef = ref();
 
 function next() {
-  currentIndex.value++;
+  if (formValid.value) {
+    currentIndex.value += 1;
+  }
+  if (formValid.value === false) {
+    grandchildRef.value.validate();
+    shake.value = !shake.value;
+  }
 
   if (currentIndex.value > multiSteps.length - 1) {
     currentIndex.value = 0;
@@ -23,6 +31,17 @@ function previous() {
     return currentIndex.value;
   }
 }
+const newValidValue = (value) => {
+  formValid.value = value;
+};
+onUpdated(() => {
+  // grandchildRef.value.validate();
+});
+onMounted(() => {
+  // grandchildRef.value.validate();
+  formValid.value;
+  // console.log(grandchildRef.value);
+});
 
 // Computed properties
 const nextBtnText = computed(() => {
@@ -41,6 +60,9 @@ const nextBtnText = computed(() => {
       class="md:max-w-4xl mx-auto md:mt-5 md:grid grid-cols-[40%_60%] md:bg-white md:py-4 md:px-4 rounded-2xl h-[85vh] shadow-[0_7px_10px_hsla(243, 100%, 62%, 0.5)] md:relative">
       <Sidebar :Index="currentIndex" />
       <Forms
+        :shake="shake"
+        @isValid="newValidValue"
+        ref="grandchildRef"
         @next="next"
         @previous="previous"
         :Index="currentIndex"

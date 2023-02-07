@@ -12,12 +12,7 @@ const priceAdvance = ref();
 const pricePro = ref();
 
 const price = ref(0);
-// function setDataValues(plan, price, monthly, yearly) {
-
-// }
-onMounted(() => {
-  test.value;
-});
+onMounted(() => {});
 onUpdated(() => {
   if (activeCard.value === "arcade") {
     price.value = parseInt(priceArcade.value.innerHTML);
@@ -28,7 +23,7 @@ onUpdated(() => {
   if (activeCard.value === "pro") {
     price.value = parseInt(pricePro.value.innerHTML);
   }
-  test.value;
+  PlanValue.value;
 });
 const monthYearToggle = () => {
   emits("monthYearToggle");
@@ -44,7 +39,7 @@ const SetActiveCard = (e) => {
 };
 
 // const values = computed(() => {});
-const test = computed(() => {
+const PlanValue = computed(() => {
   let updatedPrice = price.value;
   emits("onChangePrice", updatedPrice);
   return updatedPrice;

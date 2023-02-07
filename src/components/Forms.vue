@@ -6,15 +6,20 @@ import Summary from "./Summary.vue";
 import Buttons from "./Buttons.vue";
 import { ref, computed, onMounted, onUpdated } from "vue";
 
-const props = defineProps({ Index: Number, buttonText: String });
-const emits = defineEmits(["next", "previous"]);
+const props = defineProps({
+  Index: Number,
+  buttonText: String,
+  shake: Boolean,
+});
+const emits = defineEmits(["next", "previous", "isValid"]);
 let attrVal = null;
-let plan = ref(null);
+let plan = ref();
 let year = ref(false);
 let month = ref(true);
 let Price = ref(0);
-let addons = ref("");
-// let currentComponent = ref(props.Index);
+let addons = ref();
+let valida = ref();
+
 const childComponentRef = ref();
 
 const MonthYearToggle = () => {
@@ -27,35 +32,53 @@ const SetSelectData = (e) => {
   plan = attrVal;
 };
 
-// onUpdated(() => {});
-// onMounted(() => testme);
-
-function testme(value) {
+onMounted(() => {
+  Valid.value;
+});
+onUpdated(() => {
+  Valid.value;
+});
+const Valid = computed(() => {
+  let eValidate = valida.value;
+  emits("isValid", eValidate);
+  return eValidate;
+});
+const validate = () => {
+  childComponentRef.value.validation();
+};
+function SelectPlanValue(value) {
   Price.value = value;
 }
 
 function updatedObj(obj) {
   addons.value = obj;
 }
-
+const isValid = (value) => {
+  valida.value = value;
+};
 function next() {
   emits("next");
 }
 function previous() {
   emits("previous");
 }
+defineExpose({ validate });
 </script>
 
 <template>
   <div class="md:w-[450px] pt-10">
-    <PersonalInfo ref="childComponentRef" v-show="props.Index == 0" />
+    <PersonalInfo
+      :class="[props.shake ? 'animate-shake' : '']"
+      @new-val="isValid"
+      ref="childComponentRef"
+      v-show="props.Index == 0" />
     <SelectPlan
       :yearly="year"
       :monthly="month"
       @monthYearToggle="MonthYearToggle"
       v-show="props.Index == 1"
       @setActiveCard="SetSelectData($event)"
-      @onChangePrice="testme" />
+      @onChangePrice="SelectPlanValue" />
     <AddOns
       :yearly="year"
       :monthly="month"

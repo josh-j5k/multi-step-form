@@ -1,5 +1,4 @@
 <script setup>
-import { processSlotOutlet } from "@vue/compiler-core";
 import { ref, onUpdated, computed, onMounted } from "vue";
 
 const props = defineProps({
@@ -10,15 +9,7 @@ const props = defineProps({
   addons: Object,
 });
 
-onUpdated(() => {
-  for (const key in props.addons) {
-    if (Object.hasOwnProperty.call(props.addons, key)) {
-      const element = props.addons[key];
-      let sum = 0;
-      console.log(element.price);
-    }
-  }
-});
+onUpdated(() => {});
 
 const monthYearToggled = computed(() => {
   if (props.yearly) {
@@ -46,12 +37,18 @@ const MonthlyYearlyToggled = computed(() => {
   }
 });
 const total = computed(() => {
+  let arr = [];
   for (const key in props.addons) {
     if (Object.hasOwnProperty.call(props.addons, key)) {
       const element = props.addons[key];
-      return (props.price += element.price);
+      arr.push(element.price);
     }
   }
+  let result = 0;
+  if (arr.length > 0) {
+    result = arr.reduce((a, b) => a + b);
+  }
+  return result + props.price;
 });
 const emits = defineEmits(["changeBtn"]);
 const changeBtn = () => {
@@ -112,7 +109,7 @@ const changeBtn = () => {
       <div>
         <span class="font-bold text-lg text-purplish"> +$ </span>
         <!-- <span class="-ml-1 font-bold text-lg text-purplish"> {{ total }} </span> -->
-        <span class="-ml-1 font-bold text-lg text-purplish"> 10 </span>
+        <span class="-ml-1 font-bold text-lg text-purplish"> {{ total }} </span>
         <span class="-ml-1 font-bold text-lg text-purplish"> / </span>
         <span class="-ml-1 font-bold text-lg text-purplish">
           {{ moYrToggled }}

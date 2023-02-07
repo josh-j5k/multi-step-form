@@ -1,6 +1,7 @@
 <script setup>
-import { ref, onUpdated, onMounted } from "vue";
-
+import { onMounted, onUpdated, ref, computed } from "vue";
+const emits = defineEmits(["newVal"]);
+let validate = ref(false);
 let invalidEmail = ref(false);
 let invalidEmailError = "Please enter a valid email";
 let emptyFieldError = "This field is required";
@@ -17,12 +18,13 @@ let isEmailValid = (email) => {
   return EmailPattern.test(email);
 };
 
-const validation = (valid) => {
+const validation = () => {
   if (Name == null) {
     Name = "";
   }
   if (Email == null) {
     Email = "";
+    validate.value = false;
   } else if (!isEmailValid(Email) && Email !== "") {
     invalidEmail.value = true;
   } else {
@@ -32,8 +34,23 @@ const validation = (valid) => {
   if (PhoneNumber == null) {
     PhoneNumber = "";
   }
+  if (PhoneNumber === "" || Email === "" || Name === "" || invalidEmail.value) {
+    validate.value = false;
+  } else {
+    validate.value = true;
+  }
 };
-
+const isValid = computed(() => {
+  let eValidate = validate.value;
+  emits("newVal", eValidate);
+  return eValidate;
+});
+onMounted(() => {
+  isValid.value;
+});
+onUpdated(() => {
+  isValid.value;
+});
 defineExpose({
   validation,
 });
