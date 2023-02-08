@@ -11,7 +11,7 @@ const props = defineProps({
   buttonText: String,
   shake: Boolean,
 });
-const emits = defineEmits(["next", "previous", "isValid"]);
+const emits = defineEmits(["next", "previous", "isValid", "activeCard"]);
 let attrVal = null;
 let plan = ref();
 let year = ref(false);
@@ -28,6 +28,7 @@ const MonthYearToggle = () => {
 };
 
 const SetSelectData = (e) => {
+  emits("activeCard", e);
   attrVal = e.currentTarget.getAttribute("activeCard");
   plan = attrVal;
 };
@@ -66,23 +67,23 @@ defineExpose({ validate });
 </script>
 
 <template>
-  <div class="md:w-[450px] pt-10">
+  <div class="md:w-[450px] md:pt-10">
     <PersonalInfo
-      :class="[props.shake ? 'animate-shake' : '']"
+      :shake="shake"
       @new-val="isValid"
       ref="childComponentRef"
-      v-show="props.Index == 0" />
+      v-show="props.Index === 0" />
     <SelectPlan
       :yearly="year"
       :monthly="month"
       @monthYearToggle="MonthYearToggle"
-      v-show="props.Index == 1"
+      v-show="props.Index === 1"
       @setActiveCard="SetSelectData($event)"
       @onChangePrice="SelectPlanValue" />
     <AddOns
       :yearly="year"
       :monthly="month"
-      v-show="props.Index == 2"
+      v-show="props.Index === 2"
       @onChangeObj="updatedObj" />
     <Summary
       :plan="plan"
@@ -91,10 +92,10 @@ defineExpose({ validate });
       @changeBtn="MonthYearToggle"
       :yearly="year"
       :monthly="month"
-      v-show="props.Index == 3" />
+      v-show="props.Index === 3" />
   </div>
   <div
-    class="bg-white py-4 px-4 md:absolute left-1/2 md:-translate-x-[20%] -md:translate-y-9 bottom-2 md:w-[450px]">
+    class="bg-white py-4 px-4 md:absolute left-1/2 md:-translate-x-[20%] -md:translate-y-9 bottom-0 md:w-[450px]">
     <Buttons
       @nextStep="next"
       @previousStep="previous"

@@ -53,7 +53,7 @@ module.exports = {
         },
       },
       animation: {
-        shake: "shake 0.5s linear 1",
+        shake: "shake 0.5s cubic-bezier(.36,.07,.19,.97) 1",
       },
     },
   },

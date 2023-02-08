@@ -58,7 +58,7 @@ const changeBtn = () => {
 
 <template>
   <div
-    class="-md:relative top-[-2rem] -md:w-[90vw] py-5 px-5 rounded-xl -md:mx-auto z-50">
+    class="-md:relative top-[-2rem] -md:w-[90vw] py-5 px-5 rounded-xl -md:mx-auto z-50 bg-white">
     <div class="">
       <h1 class="font-bold text-3xl text-marine pb-2">Finishing up</h1>
       <p class="text-coolg pb-5">

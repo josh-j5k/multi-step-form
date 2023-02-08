@@ -6,7 +6,7 @@ const props = defineProps({
 });
 const emits = defineEmits("monthYearToggle", "SetActiveCard", "onChangePrice");
 
-const activeCard = ref(null);
+const activeCard = ref();
 const priceArcade = ref();
 const priceAdvance = ref();
 const pricePro = ref();
@@ -55,7 +55,9 @@ const PlanValue = computed(() => {
         You have the option of monthly or yearly billing
       </p>
     </div>
-
+    <div class="text-center text-sberry pb-3" v-if="activeCard === null">
+      You must select a plan
+    </div>
     <div class="flex justify-evenly -md:flex-col gap-4 mb-7">
       <!-- cards -->
       <div
