@@ -3,9 +3,9 @@ import { onMounted, onUpdated, ref, computed } from "vue";
 const props = defineProps({
   yearly: Boolean,
   monthly: Boolean,
+  selectPlanValidate: String,
 });
 const emits = defineEmits("monthYearToggle", "SetActiveCard", "onChangePrice");
-
 const activeCard = ref();
 const priceArcade = ref();
 const priceAdvance = ref();
@@ -27,8 +27,6 @@ onUpdated(() => {
 });
 const monthYearToggle = () => {
   emits("monthYearToggle");
-
-  // console.log(priceArcade.value.innerHTML);
 };
 
 const SetActiveCard = (e) => {
@@ -55,7 +53,9 @@ const PlanValue = computed(() => {
         You have the option of monthly or yearly billing
       </p>
     </div>
-    <div class="text-center text-sberry pb-3" v-if="activeCard === null">
+    <div
+      class="text-center text-sberry pb-3"
+      v-if="props.selectPlanValidate === 'invalid'">
       You must select a plan
     </div>
     <div class="flex justify-evenly -md:flex-col gap-4 mb-7">

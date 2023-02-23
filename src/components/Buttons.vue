@@ -29,7 +29,8 @@ defineProps({
     <button
       type="submit"
       @click="nextStep"
-      class="bg-marine text-white rounded-md border-none py-2 px-4 capitalize cursor-pointer md:absolute bottom-2 right-0">
+      class="bg-marine text-white rounded-md border-none py-2 px-4 capitalize cursor-pointer md:absolute md:bottom-2 right-0"
+      :class="[showBtn === 0 ? '-md:absolute -md:right-4 -md:bottom-4' : '']">
       {{ buttonText }}
     </button>
   </div>

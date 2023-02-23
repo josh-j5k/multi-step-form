@@ -10,6 +10,7 @@ const props = defineProps({
   Index: Number,
   buttonText: String,
   shake: Boolean,
+  selectPlanValidate: String,
 });
 const emits = defineEmits(["next", "previous", "isValid", "activeCard"]);
 let attrVal = null;
@@ -67,13 +68,14 @@ defineExpose({ validate });
 </script>
 
 <template>
-  <div class="md:w-[450px] md:pt-10">
+  <div class="md:w-[450px] md:pt-10 -md:mt-8">
     <PersonalInfo
       :shake="shake"
       @new-val="isValid"
       ref="childComponentRef"
       v-show="props.Index === 0" />
     <SelectPlan
+      :selectPlanValidate="selectPlanValidate"
       :yearly="year"
       :monthly="month"
       @monthYearToggle="MonthYearToggle"
@@ -95,8 +97,9 @@ defineExpose({ validate });
       v-show="props.Index === 3" />
   </div>
   <div
-    class="bg-white py-4 px-4 md:absolute left-1/2 md:-translate-x-[20%] -md:translate-y-9 bottom-0 md:w-[450px]">
+    class="bg-white py-4 px-4 md:absolute left-1/2 md:-translate-x-[20%] -md:fixed -md:bottom-0 -md:left-0 -md:right-0 md:bottom-3 md:w-[450px]">
     <Buttons
+      :class="[Index === 0 ? 'py-5' : '']"
       @nextStep="next"
       @previousStep="previous"
       :showBtn="props.Index"

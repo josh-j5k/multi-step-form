@@ -11,25 +11,45 @@ let shake = ref(false);
 let buttonText = ref("next step");
 let ThankYou = ref(false);
 let ActiveCard = ref(false);
-
+let selectPlanValidate = "";
 let currentIndex = ref(0);
 const grandchildRef = ref();
-
+let clearIntervalId;
+let clearSetTimeoutId;
 function next() {
   grandchildRef.value.validate();
   if (!formValid.value) {
-    shake.value = true;
+    shake.value = !shake.value;
   }
-  setTimeout(() => {
+  clearIntervalId = setTimeout(() => {
     if (formValid.value) {
       currentIndex.value += 1;
+      shake.value = false;
     }
   }, 0.0000001);
 
-  setTimeout(() => {
-    shake.value = false;
-  }, 0.000001);
-  if (currentIndex.value >= multiSteps.length - 1) {
+  if (currentIndex.value > 0) {
+    clearTimeout(clearIntervalId);
+  }
+  if (formValid.value && !ActiveCard.value) {
+    selectPlanValidate = "invalid";
+    shake.value = !shake.value;
+  }
+  clearSetTimeoutId = setTimeout(() => {
+    if (formValid.value && ActiveCard.value) {
+      currentIndex.value += 1;
+      shake.value = false;
+      selectPlanValidate = "";
+    }
+  }, 0.0000001);
+  if (currentIndex.value > 1) {
+    clearTimeout(clearSetTimeoutId);
+  }
+  if (currentIndex.value >= 2) {
+    currentIndex.value += 1;
+  }
+
+  if (currentIndex.value > multiSteps.length - 1) {
     ThankYou.value = true;
   }
 }
@@ -44,10 +64,6 @@ const newValidValue = (value) => {
   formValid.value = value;
 };
 onUpdated(() => {
-  formValid.value;
-});
-onBeforeUpdate(() => {});
-onMounted(() => {
   formValid.value;
 });
 
@@ -74,6 +90,7 @@ const nextBtnText = computed(() => {
       <div>
         <Forms
           v-if="!ThankYou"
+          :selectPlanValidate="selectPlanValidate"
           :shake="shake"
           @isValid="newValidValue"
           ref="grandchildRef"
@@ -82,7 +99,7 @@ const nextBtnText = computed(() => {
           @activeCard="SelectActivePlan($event)"
           :Index="currentIndex"
           :buttonText="nextBtnText" />
-        <ThankYouComponent v-if="ThankYou" />
+        <ThankYouComponent class="-md:mt-8" v-if="ThankYou" />
       </div>
     </div>
   </div>
